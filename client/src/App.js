@@ -9,15 +9,15 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      name: {}
+      name: ''
     };
   }
   componentDidMount() {
     this.fetchApi();
   }
 
-  async fetchApi() {
-    return await axios
+  fetchApi() {
+    return axios
       .get('/api/users')
       .then(res => this.setState({ name: res.data }));
   }
