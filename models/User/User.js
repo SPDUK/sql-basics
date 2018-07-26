@@ -48,14 +48,4 @@ User.hook('afterValidate', user => {
   user.password = bcrypt.hashSync(user.password, 8);
 });
 
-sq.sync().then(() => {
-  User.findOne({
-    where: {
-      id: 30
-    }
-  }).then(user => {
-    console.log(user.dataValues);
-  });
-});
-
 module.exports = User;

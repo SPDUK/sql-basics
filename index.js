@@ -1,58 +1,16 @@
-require('dotenv').config();
-const routes = require('./routes/index');
-const express = require('express');
-const app = express();
 const path = require('path');
+const express = require('express');
+const helmet = require('helmet');
+
+require('dotenv').config();
+
+const app = express();
 const router = express.Router();
+app.use(helmet());
 
-app.use(express.static(__dirname + '/public'));
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-// sq.sync()
-//   .then(() =>
-//     User.create({
-//       username: faker.internet.userName(),
-//       email: faker.internet.email(),
-//       password: faker.internet.password()
-//     })
-//   )
-//   .then(user => {
-//     console.log(user.toJSON());
-//   })
-//   .catch(err => console.log(err.message));
+const users = require('./routes/api/users');
 
-// sq.sync().then(() => {
-//   User.findOne({
-//     where: {
-//       username: 'Megane.Franecki'
-//     }
-//   }).then(user => {
-//     console.log(user.dataValues);
-//   });
-// });
+app.use('/api/users', users);
+// app.use(express.static(path.join(__dirname, 'client/build')));
 
-// sq.sync().then(() => {
-//   User.findOne({
-//     where: {
-//       id: 1
-//     }
-//   }).then(user => {
-//     User.destroy({
-//       where: {
-//         id: user.id
-//       }
-//     });
-//   });
-// });
-
-// sq.sync().then(() => {
-//   User.destroy({
-//     where: {
-//       id: 4
-//     }
-//   });
-// });
-
-app.listen(process.env.PORT || 3000, () =>
-  console.log('Example app listening on port 3000!')
-);
+app.listen(process.env.PORT || 8888, () => console.log('App started!'));
