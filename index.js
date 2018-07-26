@@ -16,15 +16,19 @@ var sq = new Sequelize('sqlbasics', process.env.DB_USER, process.env.DB_PW, {
   }
 });
 
-const User = sq.define('user', {
+const Email = sq.define('emails', {
   username: Sequelize.STRING,
-  birthday: Sequelize.DATE
+  email: {
+    type: Sequelize.STRING,
+    email: true,
+    allowNull: false
+  }
 });
 sq.sync()
   .then(() =>
-    User.create({
-      username: 'janedoe',
-      birthday: new Date(1980, 6, 20)
+    Email.create({
+      username: faker.internet.userName(),
+      email: faker.internet.email()
     }).catch(err => console.log(err))
   )
   .then(jane => {
