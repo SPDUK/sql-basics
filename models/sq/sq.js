@@ -1,14 +1,24 @@
 const Sequelize = require('sequelize');
 
-var sq = new Sequelize('sqlbasics', process.env.DB_USER, process.env.DB_PW, {
-  host: 'localhost',
-  dialect: 'postgres',
-  port: 5432,
-
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+let sq = null;
+if (process.env.HEROKU_POSTGRESQL_BRONZE_URL) {
+  // the application is executed on Heroku ... use the postgres database
+  sq = new Sequelize(process.env.HEROKU_POSTGRESQL_BRONZE_URL, {
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+      ssl: true
+    },
+    logging: true
+  });
+} else {
+  sq = new Sequelize(process.env.DB, {
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+      ssl: true
+    },
+    logging: true
+  });
+}
 module.exports = sq;

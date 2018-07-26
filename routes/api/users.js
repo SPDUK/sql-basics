@@ -1,13 +1,17 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../../models/User/User');
+const faker = require('faker');
+
 const sq = require('../../models/sq/sq');
 
 const router = express.Router();
 
-router.get('api/get', (req, res) => {
+router.get('/', (req, res) => {
   sq.sync().then(() => {
-    User.findAll().then(users => res.json(users));
+    User.findOne().then(user => {
+      res.json(user);
+    });
   });
 });
 

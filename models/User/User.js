@@ -1,6 +1,5 @@
 const sq = require('../sq/sq');
 const bcrypt = require('bcrypt');
-
 const Sequelize = require('sequelize');
 
 // Automatically includes ID, createdAt, updatedAt
