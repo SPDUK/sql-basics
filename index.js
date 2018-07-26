@@ -8,6 +8,7 @@ var Sequelize = require('sequelize');
 var sq = new Sequelize('sqlbasics', process.env.DB_USER, process.env.DB_PW, {
   host: 'localhost',
   dialect: 'postgres',
+  port: 5432,
 
   pool: {
     max: 5,
@@ -16,23 +17,31 @@ var sq = new Sequelize('sqlbasics', process.env.DB_USER, process.env.DB_PW, {
   }
 });
 
-const Email = sq.define('emails', {
-  username: Sequelize.STRING,
+const User = sq.define('users', {
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   email: {
     type: Sequelize.STRING,
     email: true,
+    allowNull: false
+  },
+  password: {
+    type: Sequelize.STRING,
     allowNull: false
   }
 });
 sq.sync()
   .then(() =>
-    Email.create({
+    User.create({
       username: faker.internet.userName(),
-      email: faker.internet.email()
+      email: faker.internet.email(),
+      password: faker.internet.password()
     }).catch(err => console.log(err))
   )
-  .then(jane => {
-    console.log(jane.toJSON());
+  .then(user => {
+    console.log(user.toJSON());
   })
   .catch(err => console.log(err));
 
