@@ -3,35 +3,23 @@ require('dotenv').config();
 const express = require('express');
 const faker = require('faker');
 const app = express();
-var Sequelize = require('sequelize');
+const bcrypt = require('bcrypt');
+const passport = require('passport');
+const sq = require('./models/sq/sq');
+const User = require('./models/User/User');
 
-var sq = new Sequelize('sqlbasics', process.env.DB_USER, process.env.DB_PW, {
-  host: 'localhost',
-  dialect: 'postgres',
-  port: 5432,
-
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
-
-const User = sq.define('users', {
-  username: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  email: {
-    type: Sequelize.STRING,
-    email: true,
-    allowNull: false
-  },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
-});
+// sq.sync()
+//   .then(() =>
+//     User.create({
+//       username: faker.internet.userName(),
+//       email: faker.internet.email(),
+//       password: faker.internet.password()
+//     })
+//   )
+//   .then(user => {
+//     console.log(user.toJSON());
+//   })
+//   .catch(err => console.log(err.message));
 
 // sq.sync().then(() => {
 //   User.findOne({
@@ -44,41 +32,25 @@ const User = sq.define('users', {
 // });
 
 // sq.sync().then(() => {
-//   User.findAll().then(users => {
-//     users.forEach(e => console.log(e.dataValues));
+//   User.findOne({
+//     where: {
+//       id: 1
+//     }
+//   }).then(user => {
+//     User.destroy({
+//       where: {
+//         id: user.id
+//       }
+//     });
 //   });
 // });
+
 // sq.sync().then(() => {
-//   User.findAll().then(users => {
-//     console.log(users.length);
+//   User.destroy({
+//     where: {
+//       id: 4
+//     }
 //   });
 // });
-
-sq.sync().then(() => {
-  User.findOne({
-    where: {
-      id: 1
-    }
-  }).then(user => {
-    User.destroy({
-      where: {
-        id: user.id
-      }
-    });
-  });
-});
-
-// sq.sync()
-//   .then(() =>
-//     User.create({
-//       username: faker.internet.userName(),
-//       email: faker.internet.email(),
-//       password: faker.internet.password()
-//     }).catch(err => console.log(err))
-//   )
-//   .then(user => {
-//     console.log(user.toJSON());
-//   })
-//   .catch(err => console.log(err));
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
