@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const express = require('express');
-
 const faker = require('faker');
 const app = express();
 var Sequelize = require('sequelize');
