@@ -1,13 +1,13 @@
 require('dotenv').config();
-
+const routes = require('./routes/index');
 const express = require('express');
-const faker = require('faker');
 const app = express();
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const sq = require('./models/sq/sq');
-const User = require('./models/User/User');
+const path = require('path');
+const router = express.Router();
 
+app.use(express.static(__dirname + '/public'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 // sq.sync()
 //   .then(() =>
 //     User.create({
