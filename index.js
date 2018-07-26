@@ -48,9 +48,23 @@ const User = sq.define('users', {
 //     users.forEach(e => console.log(e.dataValues));
 //   });
 // });
+// sq.sync().then(() => {
+//   User.findAll().then(users => {
+//     console.log(users.length);
+//   });
+// });
+
 sq.sync().then(() => {
-  User.findAll().then(users => {
-    console.log(users.length);
+  User.findOne({
+    where: {
+      id: 1
+    }
+  }).then(user => {
+    User.destroy({
+      where: {
+        id: user.id
+      }
+    });
   });
 });
 
