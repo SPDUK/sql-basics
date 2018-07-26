@@ -32,17 +32,39 @@ const User = sq.define('users', {
     allowNull: false
   }
 });
-sq.sync()
-  .then(() =>
-    User.create({
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      password: faker.internet.password()
-    }).catch(err => console.log(err))
-  )
-  .then(user => {
-    console.log(user.toJSON());
-  })
-  .catch(err => console.log(err));
+
+// sq.sync().then(() => {
+//   User.findOne({
+//     where: {
+//       username: 'Megane.Franecki'
+//     }
+//   }).then(user => {
+//     console.log(user.dataValues);
+//   });
+// });
+
+// sq.sync().then(() => {
+//   User.findAll().then(users => {
+//     users.forEach(e => console.log(e.dataValues));
+//   });
+// });
+sq.sync().then(() => {
+  User.findAll().then(users => {
+    console.log(users.length);
+  });
+});
+
+// sq.sync()
+//   .then(() =>
+//     User.create({
+//       username: faker.internet.userName(),
+//       email: faker.internet.email(),
+//       password: faker.internet.password()
+//     }).catch(err => console.log(err))
+//   )
+//   .then(user => {
+//     console.log(user.toJSON());
+//   })
+//   .catch(err => console.log(err));
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
