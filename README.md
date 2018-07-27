@@ -6,5 +6,7 @@ create a .env file in the root folder with the values :
 NODE_ENV=development
 
 
-DB = <heroku postgresql link goes here>
+DB_USER = <postgresql username>
+DB_PW = <postgresql password>
+
 ```

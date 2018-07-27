@@ -1,4 +1,4 @@
-const sq = require('../sq/sq');
+const sq = require('./sq');
 const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
 
