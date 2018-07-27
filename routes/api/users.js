@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../../models/User');
 const faker = require('faker');
+const validateRegister = require('../../validation/register');
 
 const sq = require('../../models/sq');
 
@@ -15,16 +16,19 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/', (req, res) => {
-  console.log(req.body.username);
+router.post('/register', (req, res) => {
+  const { errors, isValid } = validateRegister(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   sq.sync().then(() => {
     const { username, email, password } = req.body;
     User.findOne({ where: { username } })
       .then(user => {
         if (user) {
-          // console.log('user exists');
-          // console.log(user.toJSON());
-          res.json(user);
+          return res.status(400).json();
         }
         User.create({
           username,
