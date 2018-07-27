@@ -4,6 +4,7 @@ const Validator = require('validator');
 module.exports = function validateRegisterInput(data) {
   const errors = {};
 
+  // TODO : Make some way to limit usernames so they can't add spaces, use regex or something
   data.username = !R.isEmpty(data.username) ? data.username : '';
   data.email = !R.isEmpty(data.email) ? data.email : '';
   data.password = !R.isEmpty(data.password) ? data.password : '';

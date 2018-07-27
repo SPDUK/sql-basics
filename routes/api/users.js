@@ -29,6 +29,7 @@ router.post('/register', (req, res) => {
   }
 
   sq.sync().then(() => {
+    // eslint-disable-next-line
     let { username, email, password } = req.body;
     // find an email that matches user input email, if it exists show an error message
     User.findOne({ where: { email } })
@@ -40,7 +41,7 @@ router.post('/register', (req, res) => {
 
         // encrypt the password before creating the new user using that password
         bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(password, salt, (err, hash) => {
+          bcrypt.hash(process.env.PW, salt, (err, hash) => {
             if (err) throw err;
             password = hash;
             User.create({

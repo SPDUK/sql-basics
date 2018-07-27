@@ -8,5 +8,7 @@ NODE_ENV=development
 
 DB_USER = <postgresql username>
 DB_PW = <postgresql password>
+JWT_SECRET = <'A secret for jwt (string)'>
+PW = <'A password for bcrypt (string)'>
 
 ```
