@@ -1,7 +1,6 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const User = require('../../models/User');
-const faker = require('faker');
 const validateRegister = require('../../validation/register');
 
 const sq = require('../../models/sq');
@@ -16,6 +15,9 @@ router.get('/', (req, res) => {
   });
 });
 
+// @route POST api/users/register
+// @desc Register user
+// @access Public
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegister(req.body);
 
@@ -28,7 +30,8 @@ router.post('/register', (req, res) => {
     User.findOne({ where: { username } })
       .then(user => {
         if (user) {
-          return res.status(400).json();
+          errors.userexists = 'A user with that username already exists';
+          return res.status(400).json(errors);
         }
         User.create({
           username,
@@ -39,5 +42,17 @@ router.post('/register', (req, res) => {
       .catch(err => console.log(err));
   });
 });
+// hook for after register, after the user clicks register
+
+User.hook('beforeCreate', user =>
+  bcrypt
+    .hash(user.dataValues.password, 10)
+    .then(hash => {
+      user.dataValues.password = hash;
+    })
+    .catch(err => {
+      throw new Error();
+    })
+);
 
 module.exports = router;
