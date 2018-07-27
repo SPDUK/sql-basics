@@ -30,25 +30,28 @@ router.post('/register', (req, res) => {
 
   sq.sync().then(() => {
     let { username, email, password } = req.body;
-    User.findOne({ where: { email } }).then(user => {
-      if (user) {
-        errors.userexists = 'A user with that email already exists';
-        return res.status(400).json(errors);
-      }
-      console.log(password);
+    // find an email that matches user input email, if it exists show an error message
+    User.findOne({ where: { email } })
+      .then(user => {
+        if (user) {
+          errors.userexists = 'A user with that email already exists';
+          return res.status(409).json(errors);
+        }
 
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hash) => {
-          if (err) throw err;
-          password = hash;
-          User.create({
-            username,
-            email,
-            password
-          }).then(savedUser => res.json(savedUser));
+        // encrypt the password before creating the new user using that password
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(password, salt, (err, hash) => {
+            if (err) throw err;
+            password = hash;
+            User.create({
+              username,
+              email,
+              password
+            }).then(savedUser => res.json(savedUser));
+          });
         });
-      });
-    });
+      })
+      .catch(err => res.status(401).json(err));
   });
 });
 
