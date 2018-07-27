@@ -41,7 +41,7 @@ router.post('/register', (req, res) => {
 
         // encrypt the password before creating the new user using that password
         bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(process.env.PW, salt, (err, hash) => {
+          bcrypt.hash(password, salt, (err, hash) => {
             if (err) throw err;
             password = hash;
             User.create({
@@ -77,8 +77,6 @@ router.post('/login', (req, res) => {
       bcrypt
         .compare(password, user.dataValues.password)
         .then(isMatch => {
-          console.log(password);
-          console.log(user.dataValues.password);
           if (isMatch) {
             const payload = {
               id: user.dataValues.id,

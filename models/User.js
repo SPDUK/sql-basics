@@ -10,7 +10,7 @@ const User = sq.define('users', {
     unique: true,
     validate: {
       len: {
-        args: [1, 80],
+        args: [2, 30],
         msg: 'Your Username must be between 1 and 80 characters long'
       }
     }
@@ -34,8 +34,8 @@ const User = sq.define('users', {
     allowNull: false,
     validate: {
       len: {
-        args: [4, 180],
-        msg: 'Your Password must be between 1 and 180 characters long'
+        args: [6, 160],
+        msg: 'Your Password must be between 6 and 160 characters long'
       }
     }
   }
