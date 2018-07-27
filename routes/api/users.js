@@ -29,20 +29,26 @@ router.post('/register', (req, res) => {
   }
 
   sq.sync().then(() => {
-    const { username, email, password } = req.body;
-    User.findOne({ where: { email } })
-      .then(user => {
-        if (user) {
-          errors.userexists = 'A user with that email already exists';
-          return res.status(400).json(errors);
-        }
-        User.create({
-          username,
-          email,
-          password
-        }).then(savedUser => res.json(savedUser));
-      })
-      .catch(err => console.log(err));
+    let { username, email, password } = req.body;
+    User.findOne({ where: { email } }).then(user => {
+      if (user) {
+        errors.userexists = 'A user with that email already exists';
+        return res.status(400).json(errors);
+      }
+      console.log(password);
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+          if (err) throw err;
+          password = hash;
+          User.create({
+            username,
+            email,
+            password
+          }).then(savedUser => res.json(savedUser));
+        });
+      });
+    });
   });
 });
 
