@@ -1,7 +1,10 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../../models/User');
 const validateRegister = require('../../validation/register');
+
+require('dotenv').config({ path: 'variables.env' });
 
 const sq = require('../../models/sq');
 
@@ -27,10 +30,10 @@ router.post('/register', (req, res) => {
 
   sq.sync().then(() => {
     const { username, email, password } = req.body;
-    User.findOne({ where: { username } })
+    User.findOne({ where: { email } })
       .then(user => {
         if (user) {
-          errors.userexists = 'A user with that username already exists';
+          errors.userexists = 'A user with that email already exists';
           return res.status(400).json(errors);
         }
         User.create({
@@ -42,17 +45,54 @@ router.post('/register', (req, res) => {
       .catch(err => console.log(err));
   });
 });
-// hook for after register, after the user clicks register
 
-User.hook('beforeCreate', user =>
-  bcrypt
-    .hash(user.dataValues.password, 10)
-    .then(hash => {
-      user.dataValues.password = hash;
-    })
-    .catch(err => {
-      throw new Error();
-    })
-);
+// @route POST api/users/login
+// @desc Register user
+// @access Public
+router.post('/login', (req, res) => {
+  const { errors, isValid } = validateRegister(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  sq.sync().then(() => {
+    const { email, password } = req.body;
+    User.findOne({ where: { email } }).then(user => {
+      if (!user) {
+        errors.email = 'Incorrect email / password combination';
+        return res.status(400).json(errors);
+      }
+
+      bcrypt
+        .compare(password, user.dataValues.password)
+        .then(isMatch => {
+          console.log(password);
+          console.log(user.dataValues.password);
+          if (isMatch) {
+            const payload = {
+              id: user.dataValues.id,
+              username: user.dataValues.username
+            };
+            jwt.sign(
+              payload,
+              process.env.JWT_SECRET,
+              { expiresIn: '60d' },
+              (err, token) => {
+                res.json({
+                  success: true,
+                  token: `Bearer ${token}`
+                });
+              }
+            );
+          } else {
+            errors.password = 'ismatch failed';
+            return res.status(400).json(errors);
+          }
+        })
+        .catch(err => res.status(400).json(err));
+    });
+  });
+});
 
 module.exports = router;

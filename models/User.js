@@ -1,5 +1,4 @@
 const sq = require('./sq');
-const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
 
 // Automatically includes ID, createdAt, updatedAt
@@ -40,11 +39,6 @@ const User = sq.define('users', {
       }
     }
   }
-});
-
-// hooks for User model
-User.hook('afterValidate', user => {
-  user.password = bcrypt.hashSync(user.password, 8);
 });
 
 module.exports = User;
