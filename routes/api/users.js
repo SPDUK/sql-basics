@@ -18,7 +18,8 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   console.log(req.body.username);
   sq.sync().then(() => {
-    User.findOne({ where: { username: req.body.username } })
+    const { username, email, password } = req.body;
+    User.findOne({ where: { username } })
       .then(user => {
         if (user) {
           // console.log('user exists');
@@ -26,10 +27,10 @@ router.post('/', (req, res) => {
           res.json(user);
         }
         User.create({
-          username: req.body.username,
-          email: 'username@email.com',
-          password: 'longpassword8888'
-        }).then(user => res.json(user));
+          username,
+          email,
+          password
+        }).then(savedUser => res.json(savedUser));
       })
       .catch(err => console.log(err));
   });
