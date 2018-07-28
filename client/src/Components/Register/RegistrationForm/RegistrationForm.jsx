@@ -88,7 +88,10 @@ class RegistrationForm extends React.Component {
           label={
             <span>
               Username&nbsp;
-              <Tooltip title="Users will see your username publicly, not your email">
+              <Tooltip
+                placement="top"
+                title="Users will see your username publicly, not your email"
+              >
                 <Icon type="question-circle-o" />
               </Tooltip>
             </span>
