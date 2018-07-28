@@ -1,6 +1,4 @@
 import React from 'react';
-import './RegistrationForm.css';
-
 import {
   Form,
   Input,
@@ -12,6 +10,9 @@ import {
   AutoComplete
 } from 'antd';
 
+import './registrationform.css';
+
+// antd stuff
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
