@@ -94,7 +94,7 @@ router.post('/login', (req, res) => {
               }
             );
           } else {
-            errors.password = 'ismatch failed';
+            errors.password = 'Incorrect email / password combination';
             return res.status(400).json(errors);
           }
         })
