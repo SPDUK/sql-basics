@@ -12,5 +12,11 @@ JWT_SECRET = <'A secret for jwt (string)'>
 
 ```
 
+```
+yarn install 
+```
+```
+yarn run dev
+```
 
 Just has a basic user signup/login so far. 
