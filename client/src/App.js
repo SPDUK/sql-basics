@@ -1,31 +1,23 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import logo from './logo.svg';
+// Components
+import Register from './Components/Register/Register';
+import Landing from './Components/Landing/Landing';
+
+// Css
 import './App.css';
 
-const hi = 'hello';
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: ''
-    };
-  }
-  componentDidMount() {
-    this.fetchApi();
-  }
-
-  fetchApi() {
-    return axios
-      .get('/api/users')
-      .then(res => this.setState({ name: res.data }));
-  }
   render() {
     return (
       <div className="App">
-        <h1>{this.state.name.id}</h1>
-        <h1>{this.state.name.username}</h1>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/" exact component={Landing} />
+            <Route path="/register" exact component={Register} />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
