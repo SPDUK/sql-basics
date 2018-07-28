@@ -10,16 +10,17 @@ module.exports = function validateRegisterInput(data) {
   data.password = !R.isEmpty(data.password) ? data.password : '';
   data.password2 = !R.isEmpty(data.password2) ? data.password2 : '';
 
-  if (!/^[a-zA-Z0-9]*$/.test(data.username)) {
-    errors.username =
-      'Username must only include letters and numbers with no spaces';
-  }
   // username
   if (Validator.isEmpty(data.username)) {
     errors.username = 'Username field is required';
   }
   if (!Validator.isLength(data.username, { min: 2, max: 30 })) {
     errors.username = 'Username must be between 2 and 30 characters';
+  }
+
+  if (!/^[a-zA-Z0-9]*$/.test(data.username)) {
+    errors.username =
+      'Username must only include letters and numbers with no spaces';
   }
 
   // email
@@ -42,6 +43,10 @@ module.exports = function validateRegisterInput(data) {
     errors.password = 'Password field is required';
   }
 
+  if (/\s/g.test(data.password)) {
+    errors.password = 'Password must not contain spaces';
+  }
+
   // confirm password
   if (Validator.isEmpty(data.password2)) {
     errors.password2 = 'Password field is required';
@@ -52,6 +57,10 @@ module.exports = function validateRegisterInput(data) {
   }
   if (!Validator.equals(data.password, data.password2)) {
     errors.password2 = 'Passwords must match';
+  }
+
+  if (/\s/g.test(data.password2)) {
+    errors.password = 'Password must not contain spaces';
   }
 
   return {

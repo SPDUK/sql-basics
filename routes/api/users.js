@@ -31,6 +31,11 @@ router.post('/register', (req, res) => {
   sq.sync().then(() => {
     // eslint-disable-next-line
     let { username, email, password } = req.body;
+
+    console.log(password);
+    console.log(password);
+    console.log(password);
+
     // find an email that matches user input email, if it exists show an error message
     User.findOne({ where: { email } })
       .then(user => {
