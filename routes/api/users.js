@@ -70,7 +70,7 @@ router.post('/login', (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-
+  // sync to DB then check if any email currently exists, if not return with an error
   sq.sync().then(() => {
     const { email, password } = req.body;
     User.findOne({ where: { email } }).then(user => {
@@ -79,6 +79,7 @@ router.post('/login', (req, res) => {
         return res.status(400).json(errors);
       }
 
+      // compare the password to the input password
       bcrypt
         .compare(password, user.dataValues.password)
         .then(isMatch => {
@@ -100,7 +101,7 @@ router.post('/login', (req, res) => {
             );
           } else {
             errors.password = 'Incorrect email / password combination';
-            return res.status(400).json(errors);
+            return res.status(409).json(errors);
           }
         })
         .catch(err => res.status(400).json(err));
