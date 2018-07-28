@@ -1,8 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+
+// models
 const User = require('../../models/User');
+// validation
 const validateRegister = require('../../validation/register');
+const validateLogin = require('../../validation/login');
 
 require('dotenv').config({ path: 'variables.env' });
 
@@ -31,10 +35,6 @@ router.post('/register', (req, res) => {
   sq.sync().then(() => {
     // eslint-disable-next-line
     let { username, email, password } = req.body;
-
-    console.log(password);
-    console.log(password);
-    console.log(password);
 
     // find an email that matches user input email, if it exists show an error message
     User.findOne({ where: { email } })
@@ -65,7 +65,7 @@ router.post('/register', (req, res) => {
 // @desc Register user
 // @access Public
 router.post('/login', (req, res) => {
-  const { errors, isValid } = validateRegister(req.body);
+  const { errors, isValid } = validateLogin(req.body);
 
   if (!isValid) {
     return res.status(400).json(errors);
