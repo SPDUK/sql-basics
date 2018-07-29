@@ -68,18 +68,6 @@ class RegistrationForm extends React.Component {
         sm: { span: 16 }
       }
     };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 13,
-          offset: 0
-        },
-        sm: {
-          span: 18,
-          offset: 8
-        }
-      }
-    };
 
     return (
       <Form className="registerform" onSubmit={this.handleSubmit}>
@@ -148,8 +136,12 @@ class RegistrationForm extends React.Component {
           })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
         </FormItem>
 
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+        <FormItem className="registerform-options">
+          <Button
+            className="registerform-options-button"
+            type="primary"
+            htmlType="submit"
+          >
             Register
           </Button>
         </FormItem>

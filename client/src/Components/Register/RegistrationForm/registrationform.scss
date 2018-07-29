@@ -5,4 +5,18 @@
   @media (min-width: 470px) {
     width: 450px;
   }
+  @media (min-width: 575) {
+  }
+
+  // important because css framework is annoying
+  &-options {
+    display: flex !important;
+    justify-content: flex-end !important;
+  &-button {
+    width: 100%;
+    @media (min-width: 576px) {
+      width: 150px;
+    }
+  }
+  }
 }
