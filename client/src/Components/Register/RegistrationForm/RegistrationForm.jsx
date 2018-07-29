@@ -1,26 +1,14 @@
 import React from 'react';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Select,
-  Checkbox,
-  Button,
-  AutoComplete
-} from 'antd';
+import { Form, Input, Tooltip, Icon, Button } from 'antd';
 
 import './registrationform.css';
 
 // antd stuff
 const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
 
 class RegistrationForm extends React.Component {
   state = {
-    confirmDirty: false,
-    autoCompleteResult: []
+    confirmDirty: false
   };
 
   handleSubmit = e => {
@@ -32,6 +20,7 @@ class RegistrationForm extends React.Component {
     });
   };
 
+  // confirmDirty is true if the inputs are all clean and work properly with no errors.
   handleConfirmBlur = e => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -56,7 +45,6 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
 
     const formItemLayout = {
       labelCol: {
