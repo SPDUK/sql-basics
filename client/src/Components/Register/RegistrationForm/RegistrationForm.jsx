@@ -33,21 +33,21 @@ class RegistrationForm extends React.Component {
   };
 
   handleConfirmBlur = e => {
-    const value = e.target;
+    const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
   compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props;
+    const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback('Passwords must be the same');
     } else {
       callback();
     }
   };
 
   validateToNextPassword = (rule, value, callback) => {
-    const form = this.props;
+    const form = this.props.form;
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
     }
@@ -71,11 +71,11 @@ class RegistrationForm extends React.Component {
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
-          span: 24,
+          span: 13,
           offset: 0
         },
         sm: {
-          span: 16,
+          span: 18,
           offset: 8
         }
       }
@@ -90,7 +90,7 @@ class RegistrationForm extends React.Component {
               Username&nbsp;
               <Tooltip
                 placement="top"
-                title="Users will see your username publicly, not your email"
+                title="Users will see your username publicly, not your email."
               >
                 <Icon type="question-circle-o" />
               </Tooltip>
@@ -101,7 +101,7 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Please input your nickname!',
+                message: 'Please enter a username',
                 whitespace: true
               }
             ]
@@ -112,11 +112,11 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!'
+                message: 'Not a valid Email'
               },
               {
                 required: true,
-                message: 'Please input your E-mail!'
+                message: 'Please enter an email!'
               }
             ]
           })(<Input />)}
@@ -148,15 +148,6 @@ class RegistrationForm extends React.Component {
           })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
         </FormItem>
 
-        <FormItem {...tailFormItemLayout}>
-          {getFieldDecorator('agreement', {
-            valuePropName: 'checked'
-          })(
-            <Checkbox>
-              I have read the <a href="">agreement</a>
-            </Checkbox>
-          )}
-        </FormItem>
         <FormItem {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Register
