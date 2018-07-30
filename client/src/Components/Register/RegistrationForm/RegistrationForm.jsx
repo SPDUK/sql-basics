@@ -1,9 +1,12 @@
 import React from 'react';
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
+import { inject, observer } from 'mobx-react';
 
 // antd stuff
 const FormItem = Form.Item;
 
+@inject('authStore')
+@observer
 class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false
@@ -20,12 +23,12 @@ class RegistrationForm extends React.Component {
 
   // confirmDirty is true if the inputs are all clean and work properly with no errors.
   handleConfirmBlur = e => {
-    const value = e.target.value;
+    const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
   compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
+    const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
       callback('Passwords must be the same');
     } else {
@@ -34,7 +37,7 @@ class RegistrationForm extends React.Component {
   };
 
   validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
+    const { form } = this.props;
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
     }
