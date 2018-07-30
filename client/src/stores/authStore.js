@@ -8,8 +8,8 @@ class AuthStore {
 
   @action
   registerUser = data => {
-    console.log(data);
-    axios.post('api/users/register', data).then(res => console.log(res));
+    axios.post('api/users/register', data).then(user => this.user = user.data);
+    console.log(this.user);
   };
 }
 

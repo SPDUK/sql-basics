@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
+import authStore from '../../../stores/authStore';
 
 // antd stuff
 const FormItem = Form.Item;
@@ -8,14 +9,20 @@ const FormItem = Form.Item;
 @inject('authStore')
 @observer
 class RegistrationForm extends React.Component {
-  state = {
-    confirmDirty: false
-  };
+  constructor() {
+    super();
+    this.state = {
+      confirmDirty: false,
+    }
+
+  }
+
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        this.props.authStore.registerUser(values);
         console.log('Received values of form: ', values);
       }
     });
@@ -75,7 +82,7 @@ class RegistrationForm extends React.Component {
             </span>
           }
         >
-          {getFieldDecorator('nickname', {
+          {getFieldDecorator('username', {
             rules: [
               {
                 required: true,
@@ -113,7 +120,7 @@ class RegistrationForm extends React.Component {
           })(<Input type="password" />)}
         </FormItem>
         <FormItem {...formItemLayout} label="Confirm Password">
-          {getFieldDecorator('confirm', {
+          {getFieldDecorator('password2', {
             rules: [
               {
                 required: true,
