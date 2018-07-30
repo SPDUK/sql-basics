@@ -3,20 +3,19 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
 class AuthStore {
-  // user state
   @observable registerLoading = false;
   @observable registerErrors = {};
   @observable user = {};
 
   @action
   registerUser = async data => {
+    // reset
     this.registerLoading = true;
+    this.registerErrors = false;
     this.user = {};
     try {
-      this.user = await axios.post('api/users/register', data);
+      this.user = (await axios.post('api/users/register', data)).data;
       this.registerLoading = false;
-      console.log('done');
-      console.log(this.user);
     } catch (err) {
       this.registerErrors = err.response.data;
       this.registerLoading = false;
@@ -25,10 +24,3 @@ class AuthStore {
 }
 
 export default new AuthStore();
-
-// .then(user => (this.user = user.data))
-// .then(() => {
-//   setTimeout(() => {
-//     this.registerLoading = false;
-//   }, 400);
-// })

@@ -49,6 +49,12 @@ class RegistrationForm extends React.Component {
     callback();
   };
 
+  validateUsername = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && /\s/g.test(value)) {
+      callback('Username must not contain spaces');
+    }
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
 
@@ -85,7 +91,12 @@ class RegistrationForm extends React.Component {
               {
                 required: true,
                 message: 'Please enter a username',
-                whitespace: true
+                whitespace: true,
+                min: 2,
+                max: 30
+              },
+              {
+                validator: this.validateUsername
               }
             ]
           })(<Input />)}
@@ -99,7 +110,8 @@ class RegistrationForm extends React.Component {
               },
               {
                 required: true,
-                message: 'Please enter an email!'
+                message: 'Please enter an email!',
+                max: 160
               }
             ]
           })(<Input />)}
@@ -109,7 +121,8 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Please input your password!'
+                message: 'Please input your password!',
+                max: 160
               },
               {
                 validator: this.validateToNextPassword
@@ -122,7 +135,8 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Please confirm your password!'
+                message: 'Please confirm your password!',
+                max: 160
               },
               {
                 validator: this.compareToFirstPassword

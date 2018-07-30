@@ -10,16 +10,19 @@ import authStore from '../../stores/authStore';
 @observer
 export default class Register extends Component {
   render() {
-    console.log('hi lol ');
     console.log(this.props.authStore.user);
-    // const { authStore } = this.props;
+    // eslint-disable-next-line
+    const { authStore } = this.props;
     return (
       <div className="register">
-        {this.props.authStore.user.id}
-        {authStore.user.name}
-        {authStore.user.email}
+        <p>{authStore.user.id}</p>
+        <p>{authStore.user.username}</p>
+        <p>{authStore.user.email}</p>
         <DevTools />
         <RegistrationForm />
+        <h1>{authStore.registerErrors.username}</h1>
+        <h1>{authStore.registerErrors.email}</h1>
+        <h1>{authStore.registerErrors.userexists}</h1>
       </div>
     );
   }
