@@ -138,6 +138,7 @@ class RegistrationForm extends React.Component {
             className="registerform-options-button"
             type="primary"
             htmlType="submit"
+            loading={authStore.registerLoading}
           >
             Register
           </Button>
