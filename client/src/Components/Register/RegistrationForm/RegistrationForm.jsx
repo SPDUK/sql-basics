@@ -21,7 +21,6 @@ class RegistrationForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.authStore.registerUser(values);
-        console.log('Received values of form: ', values);
       }
     });
   };
@@ -35,7 +34,7 @@ class RegistrationForm extends React.Component {
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Passwords must be the same');
+      callback('Passwords must be the same \n');
     } else {
       callback();
     }
@@ -51,7 +50,7 @@ class RegistrationForm extends React.Component {
 
   validateUsername = (rule, value, callback) => {
     if (value && /^[a-zA-Z0-9]*$/.test(value) === false) {
-      callback('Usernames must not include symbols or spaces');
+      callback('Usernames must not include symbols or spaces \n');
     } else {
       callback();
     }
@@ -91,7 +90,7 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Please enter a username',
+                message: 'Enter a username between 2 and 30 characters \n',
                 whitespace: true,
                 min: 2,
                 max: 30
@@ -107,11 +106,11 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 type: 'email',
-                message: 'Not a valid Email'
+                message: 'Not a valid Email \n'
               },
               {
                 required: true,
-                message: 'Please enter an email!',
+                message: 'Please enter an email \n',
                 max: 160
               }
             ]
@@ -122,7 +121,7 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Please input your password!',
+                message: 'Please enter a password \n',
                 max: 160
               },
               {
@@ -136,7 +135,7 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Please confirm your password!',
+                message: 'Please confirm your password \n',
                 max: 160
               },
               {
