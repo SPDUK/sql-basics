@@ -12,11 +12,9 @@ class RegistrationForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      confirmDirty: false,
-    }
-
+      confirmDirty: false
+    };
   }
-
 
   handleSubmit = e => {
     e.preventDefault();

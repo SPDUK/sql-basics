@@ -9,18 +9,26 @@ class AuthStore {
   @observable user = {};
 
   @action
-  registerUser = data => {
+  registerUser = async data => {
     this.registerLoading = true;
-    axios.post('api/users/register', data).then(user => this.user = user.data).then(() => {
-      setTimeout(() => {
-        this.registerLoading = false
-      }, 400);
-      }).catch( err => {
-        this.registerErrors = err.response.data
-        console.log(this.registerErrors);
-        this.registerLoading = false;
-      })
+    this.user = {};
+    try {
+      this.user = await axios.post('api/users/register', data);
+      this.registerLoading = false;
+      console.log('done');
+      console.log(this.user);
+    } catch (err) {
+      this.registerErrors = err.response.data;
+      this.registerLoading = false;
+    }
   };
 }
 
 export default new AuthStore();
+
+// .then(user => (this.user = user.data))
+// .then(() => {
+//   setTimeout(() => {
+//     this.registerLoading = false;
+//   }, 400);
+// })
