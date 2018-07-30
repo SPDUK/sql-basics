@@ -50,9 +50,10 @@ class RegistrationForm extends React.Component {
   };
 
   validateUsername = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && /\s/g.test(value)) {
-      callback('Username must not contain spaces');
+    if (value && /^[a-zA-Z0-9]*$/.test(value) === false) {
+      callback('Usernames must not include symbols or spaces');
+    } else {
+      callback();
     }
   };
   render() {
