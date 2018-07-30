@@ -1,8 +1,6 @@
 import React from 'react';
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
 
-import './registrationform.css';
-
 // antd stuff
 const FormItem = Form.Item;
 
@@ -46,6 +44,7 @@ class RegistrationForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
 
+    // grid layout for form, 24 (full width) at xs, 8:16 on smaller
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },

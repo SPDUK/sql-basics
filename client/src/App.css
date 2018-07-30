@@ -1,7 +1,28 @@
-
 /* global styles, don't delete */
-@import '~antd/dist/antd.css';
+@import url(~antd/dist/antd.css);
+.register {
+  margin-top: 200px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 800px;
+  margin-bottom: 50px; }
+
+.registerform {
+  max-width: 800px;
+  min-width: 300px;
+  width: 90%; }
+  @media (min-width: 470px) {
+    .registerform {
+      width: 450px; } }
+  .registerform-options {
+    display: flex !important;
+    justify-content: flex-end !important; }
+    .registerform-options-button {
+      width: 100%; }
+      @media (min-width: 576px) {
+        .registerform-options-button {
+          width: 150px; } }
 
 .App {
-  text-align: center;
-}
+  text-align: center; }
