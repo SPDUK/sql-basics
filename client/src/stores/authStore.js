@@ -3,16 +3,24 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { message } from 'antd';
 
+// message configuration
+message.config({
+  top: 100,
+  duration: 3,
+  maxCount: 3
+});
+
 class AuthStore {
   @observable registerLoading = false;
   @observable registerErrors = {};
   @observable user = {};
 
+  // if the errors objects has anything in it, show an error message and then clear errors
   @action
   checkRegisterErrors() {
     const errors = Object.values(this.registerErrors);
     if (errors.length) {
-      errors.forEach(message.error);
+      errors.forEach(e => message.error(e));
       this.registerErrors = {};
     }
   }

@@ -7,37 +7,19 @@ const User = sq.define('users', {
   username: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
-    validate: {
-      len: {
-        args: [2, 30],
-        msg: 'Your Username must be between 1 and 80 characters long'
-      }
-    }
+    unique: true
   },
   // Email between 1 and 150 chars, must be unique in DB and not null [String]
   email: {
     type: Sequelize.STRING,
     email: true,
     allowNull: false,
-    unique: true,
-    validate: {
-      len: {
-        args: [1, 150],
-        msg: 'Your Email must be between 1 and 150 characters long'
-      }
-    }
+    unique: true
   },
   // Password between 1 and 150 chars, must be unique in DB and not null [String]
   password: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      len: {
-        args: [6, 160],
-        msg: 'Your Password must be between 6 and 160 characters long'
-      }
-    }
+    allowNull: false
   }
 });
 

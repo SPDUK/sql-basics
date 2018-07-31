@@ -15,14 +15,8 @@ export default class Register extends Component {
     const { authStore } = this.props;
     return (
       <div className="register">
-        <p>{authStore.user.id}</p>
-        <p>{authStore.user.username}</p>
-        <p>{authStore.user.email}</p>
         <DevTools />
         <RegistrationForm />
-        <h1>{authStore.registerErrors.username}</h1>
-        <h1>{authStore.registerErrors.email}</h1>
-        <h1>{authStore.registerErrors.userexists}</h1>
       </div>
     );
   }

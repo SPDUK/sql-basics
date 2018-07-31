@@ -6,12 +6,6 @@ import authStore from '../../../stores/authStore';
 // antd stuff
 const FormItem = Form.Item;
 
-message.config({
-  top: 100,
-  duration: 3,
-  maxCount: 3
-});
-
 @inject('authStore')
 @observer
 class RegistrationForm extends React.Component {

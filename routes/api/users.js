@@ -25,41 +25,48 @@ router.get('/', (req, res) => {
 // @route POST api/users/register
 // @desc Register user
 // @access Public
+function findEmail(data) {
+  return User.findOne({ where: { email: data.email } });
+}
+function findUsers(data) {
+  return User.findOne({ where: { username: data.username } });
+}
+
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegister(req.body);
 
   if (!isValid) {
     return res.status(400).json(errors);
   }
+  let { username, email, password } = req.body;
+  email = email.toLowerCase();
 
-  sq.sync().then(() => {
-    // eslint-disable-next-line
-    let { username, email, password } = req.body;
-    email = email.toLowerCase();
-    // find an email that matches user input email, if it exists show an error message
-    User.findOne({ where: { email } })
-      .then(user => {
-        if (user) {
-          errors.userexists = 'A user with that email already exists';
-          return res.status(409).json(errors);
-        }
-
-        // encrypt the password before creating the new user using that password
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(password, salt, (err, hash) => {
-            if (err) throw err;
-            password = hash;
-            email = email.toLowerCase();
-            User.create({
-              username,
-              email,
-              password
-            }).then(savedUser => res.json(savedUser));
-          });
-        });
-      })
-      .catch(err => res.status(401).json(err));
-  });
+  async function validateIt() {
+    const emails = await findEmail(req.body);
+    const users = await findUsers(req.body);
+    if (emails) {
+      errors.emailtaken = 'This email is already in use';
+      return res.status(400).json(errors);
+    }
+    if (users) {
+      errors.usernametaken = 'This username is already in use';
+      return res.status(400).json(errors);
+    }
+    // hash the password and create a user with the hashed password
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password, salt, (err, hash) => {
+        if (err) throw err;
+        password = hash;
+        email = email.toLowerCase();
+        User.create({
+          username,
+          email,
+          password
+        }).then(savedUser => res.json(savedUser));
+      });
+    });
+  }
+  validateIt();
 });
 
 // @route POST api/users/login
