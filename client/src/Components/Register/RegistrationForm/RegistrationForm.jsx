@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 
 message.config({
   top: 100,
-  duration: 3.5,
+  duration: 3,
   maxCount: 3
 });
 
@@ -27,6 +27,7 @@ class RegistrationForm extends React.Component {
     this.props.authStore.checkRegisterErrors();
   }
 
+  // submits a post request to api/users/register with the form values
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -69,7 +70,6 @@ class RegistrationForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
 
-    // authStore.clearErrors();
     // grid layout for form, 24 (full width) at xs, 8:16 on smaller
     const formItemLayout = {
       labelCol: {

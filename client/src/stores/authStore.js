@@ -27,6 +27,8 @@ class AuthStore {
     try {
       this.user = (await axios.post('api/users/register', data)).data;
       this.registerLoading = false;
+
+      message.success('You have successfully registered');
     } catch (err) {
       this.registerErrors = err.response.data;
       this.registerLoading = false;
