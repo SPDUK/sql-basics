@@ -1,0 +1,11 @@
+
+// Global antd styles //
+@import '~antd/dist/antd.css';
+// Component imports
+@import '../Components/Register/_register.scss';
+@import '../Components/Register/RegistrationForm/_registrationform.scss';
+
+
+.App {
+  text-align: center;
+}

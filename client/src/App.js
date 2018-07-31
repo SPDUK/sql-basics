@@ -6,7 +6,7 @@ import Register from './Components/Register/Register';
 import Landing from './Components/Landing/Landing';
 
 // Css
-import './App.css';
+import './styles/App.css';
 
 class App extends Component {
   render() {

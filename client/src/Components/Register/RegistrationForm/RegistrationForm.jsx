@@ -145,16 +145,19 @@ class RegistrationForm extends React.Component {
           })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
         </FormItem>
 
-        <FormItem className="registerform-options">
+        <div className="registerform-options">
           <Button
-            className="registerform-options-button"
+            className="registerform-options-register"
             type="primary"
             htmlType="submit"
             loading={authStore.registerLoading}
           >
             Register
           </Button>
-        </FormItem>
+          <Button className="registerform-options-login" ghost>
+            Log In
+          </Button>
+        </div>
       </Form>
     );
   }

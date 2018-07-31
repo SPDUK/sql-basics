@@ -1,0 +1,42 @@
+@import url(~antd/dist/antd.css);
+.register {
+  margin-top: 200px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 800px;
+  margin-bottom: 50px; }
+
+.registerform {
+  max-width: 800px;
+  min-width: 300px;
+  width: 90%; }
+  @media (min-width: 470px) {
+    .registerform {
+      width: 450px; } }
+  .registerform-options {
+    display: block; }
+    @media (min-width: 470px) {
+      .registerform-options {
+        display: flex;
+        justify-content: flex-end; } }
+    .registerform-options-register {
+      width: 100%;
+      display: block;
+      order: 1; }
+      @media (min-width: 470px) {
+        .registerform-options-register {
+          width: 150px; } }
+    .registerform-options-login {
+      color: #1890ff;
+      width: 100%;
+      margin-top: 15px; }
+      @media (min-width: 470px) {
+        .registerform-options-login {
+          width: 150px;
+          margin-top: 0px;
+          margin-right: 2px;
+          order: 0; } }
+
+.App {
+  text-align: center; }

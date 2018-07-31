@@ -1,3 +1,4 @@
+@import '../../../styles/_Variables.scss';
 .registerform {
   max-width: 800px;
   min-width: 300px;
@@ -5,18 +6,32 @@
   @media (min-width: 470px) {
     width: 450px;
   }
-  @media (min-width: 575) {
-  }
-
+  @media (min-width: 575) {}
   // important because css framework is annoying
   &-options {
-    display: flex !important;
-    justify-content: flex-end !important;
-  &-button {
-    width: 100%;
-    @media (min-width: 576px) {
-      width: 150px;
+    display: block;
+    @media (min-width: 470px) {
+      display: flex;
+      justify-content: flex-end;
     }
-  }
+    &-register {
+      width: 100%;
+      display: block;
+      order: 1;
+      @media (min-width: 470px) {
+        width: 150px;
+      }
+    }
+    &-login {
+      color: $primary-color;
+      width: 100%;
+      margin-top: 15px;
+      @media (min-width: 470px) {
+        width: 150px;
+        margin-top: 0px;
+        margin-right: 2px;
+        order: 0;
+      }
+    }
   }
 }
