@@ -79,6 +79,7 @@ class RegistrationForm extends React.Component {
     return (
       <Form className="registerform" onSubmit={this.handleSubmit}>
         <FormItem
+          validateStatus={authStore.registerErrors.usernametaken ? 'error' : ''}
           {...formItemLayout}
           label={
             <span>
@@ -107,7 +108,11 @@ class RegistrationForm extends React.Component {
             ]
           })(<Input />)}
         </FormItem>
-        <FormItem {...formItemLayout} label="E-mail">
+        <FormItem
+          validateStatus={authStore.registerErrors.emailtaken ? 'error' : ''}
+          {...formItemLayout}
+          label="E-mail"
+        >
           {getFieldDecorator('email', {
             rules: [
               {

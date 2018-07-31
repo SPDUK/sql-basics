@@ -56,7 +56,7 @@ router.post('/register', async (req, res) => {
 
       // hash the password and create a user with the hashed password
       if (!userTaken && !emailTaken) {
-        bcrypt.genSalt(10, (err, salt) => {
+        return bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(password, salt, (err, hash) => {
             if (err) throw err;
             password = hash;
@@ -66,15 +66,13 @@ router.post('/register', async (req, res) => {
               email,
               password
             })
-              .then(savedUser => res.json(savedUser))
+              .then(savedUser => res.status(200).json(savedUser))
               .catch(err => console.log(err));
           });
         });
       }
     } catch (error) {
-      return res
-        .status(404)
-        .json({ error: 'There was an error registering the user' });
+      return res.status(404).json(errors);
     }
   });
 });

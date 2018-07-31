@@ -21,7 +21,7 @@ class LoginForm extends React.Component {
     this.props.authStore.checkLoginErrors();
   }
 
-  // submits a post request to api/users/register with the form values
+  // submits a post request to api/users/login with the form values
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
