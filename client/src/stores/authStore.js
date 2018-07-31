@@ -9,14 +9,13 @@ class AuthStore {
   @observable user = {};
 
   @action
-  checkRegisterErrors = () => {
-    if (Object.keys(this.registerErrors).length > 0) {
-      Object.keys(this.registerErrors).forEach(e => {
-        message.error(this.registerErrors[e]);
-        this.registerErrors = {};
-      });
+  checkRegisterErrors() {
+    const errors = Object.values(this.registerErrors);
+    if (errors.length) {
+      errors.forEach(message.error);
+      this.registerErrors = {};
     }
-  };
+  }
 
   @action
   registerUser = async data => {
@@ -27,8 +26,7 @@ class AuthStore {
     try {
       this.user = (await axios.post('api/users/register', data)).data;
       this.registerLoading = false;
-
-      message.success('You have successfully registered');
+      message.success('You have successfully registered.');
     } catch (err) {
       this.registerErrors = err.response.data;
       this.registerLoading = false;

@@ -35,7 +35,7 @@ router.post('/register', (req, res) => {
   sq.sync().then(() => {
     // eslint-disable-next-line
     let { username, email, password } = req.body;
-
+    email = email.toLowerCase();
     // find an email that matches user input email, if it exists show an error message
     User.findOne({ where: { email } })
       .then(user => {
@@ -49,6 +49,7 @@ router.post('/register', (req, res) => {
           bcrypt.hash(password, salt, (err, hash) => {
             if (err) throw err;
             password = hash;
+            email = email.toLowerCase();
             User.create({
               username,
               email,
