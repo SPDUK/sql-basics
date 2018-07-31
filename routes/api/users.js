@@ -43,20 +43,19 @@ router.post('/register', async (req, res) => {
 
   sq.sync().then(async () => {
     try {
-      const emails = await findEmail(req.body);
-      const users = await findUsers(req.body);
-      console.log('hi');
-      console.log(users);
-      if (emails) {
+      const emailTaken = await findEmail(req.body);
+      if (emailTaken) {
         errors.emailtaken = 'This email is already in use';
         return res.status(400).json(errors);
       }
-      if (users) {
+      const userTaken = await findUsers(req.body);
+      if (userTaken) {
         errors.usernametaken = 'This username is already in use';
         return res.status(400).json(errors);
       }
+
       // hash the password and create a user with the hashed password
-      if (!users && !emails) {
+      if (!userTaken && !emailTaken) {
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(password, salt, (err, hash) => {
             if (err) throw err;
@@ -66,12 +65,16 @@ router.post('/register', async (req, res) => {
               username,
               email,
               password
-            }).then(savedUser => res.json(savedUser));
+            })
+              .then(savedUser => res.json(savedUser))
+              .catch(err => console.log(err));
           });
         });
       }
     } catch (error) {
-      console.log(error);
+      return res
+        .status(404)
+        .json({ error: 'There was an error registering the user' });
     }
   });
 });
