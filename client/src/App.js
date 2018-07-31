@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
-import Register from './Components/Register/Register';
 import Landing from './Components/Landing/Landing';
+
+import Register from './Components//Auth/Register/Register';
+import Login from './Components//Auth/Login/Login';
 
 // Css
 import './styles/App.css';
@@ -16,6 +18,7 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={Landing} />
             <Route path="/register" exact component={Register} />
+            <Route path="/login" exact component={Login} />
           </Switch>
         </BrowserRouter>
       </div>

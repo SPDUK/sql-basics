@@ -7,6 +7,37 @@
   height: 800px;
   margin-bottom: 50px; }
 
+.loginform {
+  max-width: 800px;
+  min-width: 300px;
+  width: 90%; }
+  @media (min-width: 470px) {
+    .loginform {
+      width: 450px; } }
+  .loginform-options {
+    display: block; }
+    @media (min-width: 470px) {
+      .loginform-options {
+        display: flex;
+        justify-content: flex-end; } }
+    .loginform-options-login {
+      width: 100%;
+      display: block;
+      order: 1; }
+      @media (min-width: 470px) {
+        .loginform-options-login {
+          width: 150px; } }
+    .loginform-options-signup {
+      color: #1890ff;
+      width: 100%;
+      margin-top: 15px; }
+      @media (min-width: 470px) {
+        .loginform-options-signup {
+          width: 150px;
+          margin-top: 0px;
+          margin-right: 2px;
+          order: 0; } }
+
 .registerform {
   max-width: 800px;
   min-width: 300px;

@@ -94,7 +94,7 @@ router.post('/login', (req, res) => {
     User.findOne({ where: { email } }).then(user => {
       if (!user) {
         errors.email = 'Incorrect email / password combination';
-        return res.status(400).json(errors);
+        return res.status(409).json(errors);
       }
 
       // compare the password to the input password

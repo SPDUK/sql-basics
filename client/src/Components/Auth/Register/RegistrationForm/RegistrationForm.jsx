@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Tooltip, Icon, Button, message } from 'antd';
 import { inject, observer } from 'mobx-react';
-import authStore from '../../../stores/authStore';
+import authStore from '../../../../stores/authStore';
 
 // antd stuff
 const FormItem = Form.Item;

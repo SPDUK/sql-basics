@@ -1,0 +1,37 @@
+@import '../../../../styles/_Variables.scss';
+.loginform {
+  max-width: 800px;
+  min-width: 300px;
+  width: 90%;
+  @media (min-width: 470px) {
+    width: 450px;
+  }
+  @media (min-width: 575) {}
+  // important because css framework is annoying
+  &-options {
+    display: block;
+    @media (min-width: 470px) {
+      display: flex;
+      justify-content: flex-end;
+    }
+    &-login {
+      width: 100%;
+      display: block;
+      order: 1;
+      @media (min-width: 470px) {
+        width: 150px;
+      }
+    }
+    &-signup {
+      color: $primary-color;
+      width: 100%;
+      margin-top: 15px;
+      @media (min-width: 470px) {
+        width: 150px;
+        margin-top: 0px;
+        margin-right: 2px;
+        order: 0;
+      }
+    }
+  }
+}
