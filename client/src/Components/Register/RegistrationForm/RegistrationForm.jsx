@@ -1,10 +1,16 @@
 import React from 'react';
-import { Form, Input, Tooltip, Icon, Button } from 'antd';
+import { Form, Input, Tooltip, Icon, Button, message } from 'antd';
 import { inject, observer } from 'mobx-react';
 import authStore from '../../../stores/authStore';
 
 // antd stuff
 const FormItem = Form.Item;
+
+message.config({
+  top: 100,
+  duration: 3.5,
+  maxCount: 3
+});
 
 @inject('authStore')
 @observer
@@ -14,6 +20,11 @@ class RegistrationForm extends React.Component {
     this.state = {
       confirmDirty: false
     };
+  }
+
+  componentDidUpdate() {
+    // shows the warning message if one exists
+    this.props.authStore.checkRegisterErrors();
   }
 
   handleSubmit = e => {
@@ -58,6 +69,7 @@ class RegistrationForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
 
+    // authStore.clearErrors();
     // grid layout for form, 24 (full width) at xs, 8:16 on smaller
     const formItemLayout = {
       labelCol: {
@@ -155,7 +167,7 @@ class RegistrationForm extends React.Component {
             Register
           </Button>
           <Button className="registerform-options-login" ghost>
-            Log In
+            <a href="/login">Log In</a>
           </Button>
         </div>
       </Form>
