@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
   const { errors, isValid } = validateRegister(req.body);
 
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(403).json(errors);
   }
   let { username, email, password } = req.body;
   email = email.toLowerCase();
@@ -46,12 +46,12 @@ router.post('/register', async (req, res) => {
       const emailTaken = await findEmail(req.body);
       if (emailTaken) {
         errors.emailtaken = 'This email is already in use';
-        return res.status(400).json(errors);
+        return res.status(409).json(errors);
       }
       const userTaken = await findUsers(req.body);
       if (userTaken) {
         errors.usernametaken = 'This username is already in use';
-        return res.status(400).json(errors);
+        return res.status(409).json(errors);
       }
 
       // hash the password and create a user with the hashed password
