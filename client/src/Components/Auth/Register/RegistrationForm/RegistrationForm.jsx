@@ -1,11 +1,11 @@
 import React from 'react';
-import { Form, Input, Tooltip, Icon, Button, message } from 'antd';
+import { Form, Input, Tooltip, Icon, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 import authStore from '../../../../stores/authStore';
 
 // antd stuff
 const FormItem = Form.Item;
-
+// TODO: add some kind of persistent warning for email/username invalid with antd
 @inject('authStore')
 @observer
 class RegistrationForm extends React.Component {
@@ -61,6 +61,9 @@ class RegistrationForm extends React.Component {
       callback();
     }
   };
+
+  // validateStatus={authStore.registerErrors.emailtaken ? 'error' : ''}
+
   render() {
     const { getFieldDecorator } = this.props.form;
 
@@ -79,7 +82,7 @@ class RegistrationForm extends React.Component {
     return (
       <Form className="registerform" onSubmit={this.handleSubmit}>
         <FormItem
-          validateStatus={authStore.registerErrors.usernametaken ? 'error' : ''}
+          id="username"
           {...formItemLayout}
           label={
             <span>
@@ -108,11 +111,7 @@ class RegistrationForm extends React.Component {
             ]
           })(<Input />)}
         </FormItem>
-        <FormItem
-          validateStatus={authStore.registerErrors.emailtaken ? 'error' : ''}
-          {...formItemLayout}
-          label="E-mail"
-        >
+        <FormItem {...formItemLayout} label="E-mail" id="email">
           {getFieldDecorator('email', {
             rules: [
               {

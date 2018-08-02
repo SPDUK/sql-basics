@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import DevTools from 'mobx-react-devtools';
 
 import LoginForm from './LoginForm/LoginForm';
 

@@ -1,6 +1,6 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action } from 'mobx';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';
 import { message } from 'antd';
 
 // message configuration

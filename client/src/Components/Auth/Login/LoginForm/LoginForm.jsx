@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Tooltip, Icon, Button, message } from 'antd';
+import { Form, Input, Tooltip, Icon, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 import authStore from '../../../../stores/authStore';
 
