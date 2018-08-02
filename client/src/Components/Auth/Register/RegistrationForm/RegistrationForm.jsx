@@ -16,10 +16,7 @@ class RegistrationForm extends React.Component {
     };
   }
 
-  componentDidUpdate() {
-    // shows the warning message if one exists
-    this.props.authStore.checkRegisterErrors();
-  }
+  // componentDidUpdate() {}
 
   // submits a post request to api/users/register with the form values
   handleSubmit = e => {
