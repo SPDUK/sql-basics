@@ -13,17 +13,16 @@ message.config({
 class AuthStore {
   @observable registerLoading = false;
   @observable registerErrors = {};
-  @observable user = {};
-  @observable warningMessages = {};
+  @observable registerWarnings = {};
 
   // if the errors objects has anything in it, show an error message and then clear errors
   @action
   checkRegisterErrors() {
-    const errors = Object.values(this.warningMessages);
+    const errors = Object.values(this.registerWarnings);
     if (errors.length) {
       errors.forEach(e => message.error(e));
       // clear the warnings so they don't persist
-      this.warningMessages = {};
+      this.registerWarnings = {};
     }
   }
 
@@ -32,17 +31,42 @@ class AuthStore {
     // reset
     this.registerLoading = true;
     this.registerErrors = false;
+    // TODO: make sure you can't try to register if you are logged in
     this.user = {};
     try {
-      this.user = (await axios.post('api/users/register', data)).data;
+      axios.post('api/users/register', data);
       this.registerLoading = false;
       message.success(
-        `Welcome ${this.user.username} You have successfully registered.`
+        `Welcome ${data.username}, You have successfully registered.`
       );
     } catch (err) {
       this.registerErrors = err.response.data;
-      this.warningMessages = err.response.data;
+      this.registerWarnings = err.response.data;
       this.registerLoading = false;
+    }
+  };
+
+  // LOGIN
+  @observable user = {};
+  @observable loginLoading = false;
+  @observable loginErrors = {};
+
+  @action
+  loginUser = async data => {
+    this.registerLoading = true;
+    this.loginWarnings = false;
+    this.user = {};
+
+    try {
+      this.user = (await axios.post('api/users/login', data)).data;
+      this.loginLoading = false;
+      message.success(
+        `Successfully logged in as ${this.user.username}, welcome!`
+      );
+    } catch (err) {
+      this.loginErrors = err.response.data;
+      this.loginWarnings = err.response.data;
+      this.loginloading = false;
     }
   };
 

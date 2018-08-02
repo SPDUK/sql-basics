@@ -37,30 +37,6 @@ class LoginForm extends React.Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
-  compareToFirstPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Passwords must be the same \n');
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  };
-
-  validateUsername = (rule, value, callback) => {
-    if (value && /^[a-zA-Z0-9]*$/.test(value) === false) {
-      callback('Usernames must not include symbols or spaces \n');
-    } else {
-      callback();
-    }
-  };
   render() {
     const { getFieldDecorator } = this.props.form;
 
@@ -78,35 +54,6 @@ class LoginForm extends React.Component {
 
     return (
       <Form className="loginform" onSubmit={this.handleSubmit}>
-        <FormItem
-          {...formItemLayout}
-          label={
-            <span>
-              Username&nbsp;
-              <Tooltip
-                placement="top"
-                title="Users will see your username publicly, not your email."
-              >
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('username', {
-            rules: [
-              {
-                required: true,
-                message: 'Enter a username between 2 and 30 characters \n',
-                whitespace: true,
-                min: 2,
-                max: 30
-              },
-              {
-                validator: this.validateUsername
-              }
-            ]
-          })(<Input />)}
-        </FormItem>
         <FormItem {...formItemLayout} label="E-mail">
           {getFieldDecorator('email', {
             rules: [
@@ -135,20 +82,6 @@ class LoginForm extends React.Component {
               }
             ]
           })(<Input type="password" />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="Confirm Password">
-          {getFieldDecorator('password2', {
-            rules: [
-              {
-                required: true,
-                message: 'Please confirm your password \n',
-                max: 160
-              },
-              {
-                validator: this.compareToFirstPassword
-              }
-            ]
-          })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
         </FormItem>
 
         <div className="loginform-options">

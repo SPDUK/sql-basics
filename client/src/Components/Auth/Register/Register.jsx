@@ -4,7 +4,7 @@ import DevTools from 'mobx-react-devtools';
 
 import RegistrationForm from './RegistrationForm/RegistrationForm';
 
-import authStore from '../../../stores/authStore';
+// import authStore from '../../../stores/authStore';
 
 @inject('authStore')
 @observer
