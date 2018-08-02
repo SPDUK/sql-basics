@@ -34,7 +34,7 @@ class AuthStore {
     // TODO: make sure you can't try to register if you are logged in
     this.user = {};
     try {
-      axios.post('api/users/register', data);
+      await axios.post('api/users/register', data);
       this.registerLoading = false;
       message.success(
         `Welcome ${data.username}, You have successfully registered.`
