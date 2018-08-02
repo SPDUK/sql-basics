@@ -16,8 +16,17 @@ class AuthStore {
   @observable registerLoading = false;
   @observable registerErrors = {};
   // errors and warnings are the same but we clear warnings after displaying one but errors persist
-  @observable registerWarnings = {};
   // TODO: make sure you can't try to register if you are logged in
+
+  // if the errors objects has anything in it, show an error message and then clear errors
+
+  // if there are any errors this function is called with an array of errors
+  // for each one with display an error, but it is set up to only really show one at a time at backend currently
+  @action
+  displayWarnings = errors => {
+    errors.forEach(e => message.error(e));
+  };
+
   @action
   registerUser = async data => {
     // reset
@@ -33,21 +42,10 @@ class AuthStore {
       );
     } catch (err) {
       this.registerErrors = err.response.data;
-      this.registerWarnings = err.response.data;
       this.registerLoading = false;
-      this.checkRegisterErrors(Object.values(this.registerWarnings));
+      this.displayWarnings(Object.values(err.response.data));
     }
   };
-
-  // if the errors objects has anything in it, show an error message and then clear errors
-  @action
-  checkRegisterErrors(errors) {
-    if (errors.length) {
-      errors.forEach(e => message.error(e));
-      // clear the warnings so they don't persist on rerender
-      this.registerWarnings = {};
-    }
-  }
 
   // LOGIN
   @observable user = {};
@@ -56,7 +54,6 @@ class AuthStore {
   @action
   loginUser = async data => {
     this.registerLoading = true;
-    this.loginWarnings = false;
     this.user = {};
 
     try {
@@ -73,19 +70,10 @@ class AuthStore {
     } catch (err) {
       console.log(err.response);
       this.loginErrors = err.response.data;
-      this.loginWarnings = err.response.data;
       this.loginloading = false;
+      this.displayWarnings(Object.values(err.response.data));
     }
   };
-
-  @action
-  checkLoginErrors() {
-    const errors = Object.values(this.registerErrors);
-    if (errors.length) {
-      errors.forEach(e => message.error(e));
-      this.registerErrors = {};
-    }
-  }
 }
 
 export default new AuthStore();

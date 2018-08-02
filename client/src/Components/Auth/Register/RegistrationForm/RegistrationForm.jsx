@@ -16,8 +16,6 @@ class RegistrationForm extends React.Component {
     };
   }
 
-  // componentDidUpdate() {}
-
   // submits a post request to api/users/register with the form values
   handleSubmit = e => {
     e.preventDefault();
