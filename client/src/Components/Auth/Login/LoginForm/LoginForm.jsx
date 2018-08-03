@@ -16,11 +16,6 @@ class LoginForm extends React.Component {
     };
   }
 
-  componentDidUpdate() {
-    // shows the warning message if one exists
-    this.props.authStore.checkLoginErrors();
-  }
-
   // submits a post request to api/users/login with the form values
   handleSubmit = e => {
     e.preventDefault();

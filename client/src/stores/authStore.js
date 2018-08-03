@@ -52,29 +52,31 @@ class AuthStore {
   @observable user = {};
   @observable loginLoading = false;
   @observable loginErrors = {};
-  @action
-  loginUser = async data => {
-    this.registerLoading = true;
-    this.user = {};
-    try {
-      const token = (await axios.post('api/users/login', data)).data;
-      this.loginLoading = true;
-      // place token into localStorage and decode it
-      localStorage.setItem('jwToken', token);
-      setAuthToken(token);
-      const decoded = jwtDecode(token);
-      this.user = decoded;
 
-      // stop loading spinner and show success message
-      this.loginLoading = false;
-      message.success(
-        `Successfully logged in as ${this.user.username}, welcome!`
-      );
-    } catch (err) {
-      this.loginErrors = err.response.data;
-      this.loginloading = false;
-      this.displayWarnings(Object.values(err.response.data));
-    }
+  @action
+  loginUser = data => {
+    this.user = {};
+    this.loginLoading = true;
+    axios
+      .post('api/users/login', data)
+      .then(res => {
+        const { token } = res.data;
+        localStorage.setItem('jwToken', token);
+        const decoded = jwtDecode(token);
+        this.user = decoded;
+        message.success(
+          `Successfully logged in as ${this.user.username}, welcome!`
+        );
+        this.loginLoading = false;
+      })
+      .catch(err => this.displayWarnings(Object.values(err.response.data)));
+
+    // place token into localStorage and decode it
+    // const assignedToken = await localStorage.setItem('jwToken', token);
+    // const localStorageToken = await setAuthToken(token);
+    // const decoded = await jwtDecode(token);
+
+    // stop loading spinner and show success message
   };
 }
 
