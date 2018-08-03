@@ -38,9 +38,6 @@ function sendEmail(
             if (error) {
               console.log('Error response received');
             }
-            console.log(response.statusCode);
-            console.log(response.body);
-            console.log(response.headers);
           });
         }
         // return
@@ -59,37 +56,47 @@ function sendEmail(
 
 // TODO: import sq and user etc
 
+// // hash the password and create a user with the hashed password
+// if (!userTaken && !emailTaken) {
+//   return bcrypt.genSalt(10, (err, salt) => {
+//     bcrypt.hash(password, salt, (err, hash) => {
+//       if (err) throw err;
+//       password = hash;
+//       email = email.toLowerCase();
+//       User.create({
+//         username,
+//         email,
+//         password
+//       })
+
 router.post('/', (req, res) => {
   console.log(req.body);
-  console.log(res.body);
-  // const hashedID = bcrypt.genSalt(8, (err, salt) => {
-  //   bcrypt.hash(req.body.id, salt, (err, hash) => {
-  //     console.log(req.body);
-  //     console.log(hashedID);
-  //   });
-  // });
-  async.parallel(
-    [
-      function(callback) {
-        sendEmail(
-          callback,
-          'noreply@fira.app',
-          ['emailgoeshere@gmail.com'],
-          'Subject Line',
-          'Text Content',
-          '<p style="font-size: 32px;">Please click this link to auth your account:</p>'
-        );
-      }
-    ],
-    (err, results) => {
-      res.send({
-        success: true,
-        message: 'Emails sent',
-        successfulEmails: results[0].successfulEmails,
-        errorEmails: results[0].errorEmails
-      });
-    }
-  );
+  bcrypt.genSalt(8, (err, salt) => {
+    bcrypt.hash(req.body.id.toString(), salt, (err, hash) => {
+      async.parallel(
+        [
+          function(callback) {
+            sendEmail(
+              callback,
+              'noreply@fira.app',
+              ['spdevuk@gmail.com'],
+              'Subject Line',
+              'Text Content',
+              `<p style="font-size: 32px;">Please ${hash}lick this link to auth your account:</p>`
+            );
+          }
+        ],
+        (err, results) => {
+          res.send({
+            success: true,
+            message: 'Emails sent',
+            successfulEmails: results[0].successfulEmails,
+            errorEmails: results[0].errorEmails
+          });
+        }
+      );
+    });
+  });
 });
 
 module.exports = router;
