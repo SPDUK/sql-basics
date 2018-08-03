@@ -43,7 +43,7 @@ class AuthStore {
           data.username
         }, You have successfully registered. Please confirm your email`
       );
-      axios.post('api/send', registeredUser.data);
+      axios.post('api/confirm', registeredUser.data);
     } catch (err) {
       this.registerErrors = err.response.data;
       this.registerLoading = false;

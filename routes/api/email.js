@@ -56,19 +56,6 @@ function sendEmail(
 
 // TODO: import sq and user etc
 
-// // hash the password and create a user with the hashed password
-// if (!userTaken && !emailTaken) {
-//   return bcrypt.genSalt(10, (err, salt) => {
-//     bcrypt.hash(password, salt, (err, hash) => {
-//       if (err) throw err;
-//       password = hash;
-//       email = email.toLowerCase();
-//       User.create({
-//         username,
-//         email,
-//         password
-//       })
-
 router.post('/', (req, res) => {
   console.log(req.body);
   bcrypt.genSalt(8, (err, salt) => {
@@ -85,7 +72,7 @@ router.post('/', (req, res) => {
               ['spdevuk@gmail.com'],
               'Subject Line',
               'Text Content',
-              `<a href="http://localhost:3000/confirm/${hash}"> <p style="font-size: 32px;">Please click this link to verify your <strong>account</strong></p></a>`
+              `<a href="http://localhost:8888/api/confirm/${hash}"> <p style="font-size: 32px;">Please click this link to verify your <strong>account</strong></p></a>`
             );
           }
         ],
@@ -101,6 +88,13 @@ router.post('/', (req, res) => {
       );
     });
   });
+});
+
+// using a wildcard because bcrypt strings come with / in it and I don't know how to remove it
+// TODO: remove / from bcrypt or something.
+router.get('/*', (req, res) => {
+  res.send('hi');
+  console.log('route hit');
 });
 
 module.exports = router;
