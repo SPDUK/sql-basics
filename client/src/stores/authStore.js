@@ -62,6 +62,7 @@ class AuthStore {
       .then(res => {
         const { token } = res.data;
         localStorage.setItem('jwToken', token);
+        setAuthToken(token);
         const decoded = jwtDecode(token);
         this.user = decoded;
         message.success(
@@ -69,14 +70,10 @@ class AuthStore {
         );
         this.loginLoading = false;
       })
-      .catch(err => this.displayWarnings(Object.values(err.response.data)));
-
-    // place token into localStorage and decode it
-    // const assignedToken = await localStorage.setItem('jwToken', token);
-    // const localStorageToken = await setAuthToken(token);
-    // const decoded = await jwtDecode(token);
-
-    // stop loading spinner and show success message
+      .catch(err => {
+        this.loginLoading = false;
+        this.displayWarnings(Object.values(err.response.data));
+      });
   };
 }
 
