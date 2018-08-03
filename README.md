@@ -1,5 +1,7 @@
 # 
 
+
+
 create a .env file in the root folder with the values :
 
 ```
@@ -8,7 +10,8 @@ NODE_ENV=development
 
 DB_USER = 'postgresql username'
 DB_PW = 'postgresql password'
-JWT_SECRET = 'A secret for jwt (string)'
+JWT_SECRET = 'A secret string for jwt'
+EMAIL_SECRET= 'A secret string for email verification'
 SG_KEY = 'sendgrid key goes here'
 
 ```
