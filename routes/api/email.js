@@ -72,7 +72,10 @@ function sendEmail(
 router.post('/', (req, res) => {
   console.log(req.body);
   bcrypt.genSalt(8, (err, salt) => {
+    if (err) console.log(err);
     bcrypt.hash(req.body.id.toString(), salt, (err, hash) => {
+      if (err) console.log(err);
+
       async.parallel(
         [
           function(callback) {
@@ -82,11 +85,12 @@ router.post('/', (req, res) => {
               ['spdevuk@gmail.com'],
               'Subject Line',
               'Text Content',
-              `<p style="font-size: 32px;">Please ${hash}lick this link to auth your account:</p>`
+              `<a href="http://localhost:3000/confirm/${hash}"> <p style="font-size: 32px;">Please click this link to verify your <strong>account</strong></p></a>`
             );
           }
         ],
         (err, results) => {
+          if (err) console.log(err);
           res.send({
             success: true,
             message: 'Emails sent',
