@@ -57,7 +57,7 @@ function sendEmail(
   });
 }
 
-// TODO: import sq and user etc
+// TODO: change from http to https when  actually linking to a real site
 
 // set up a JWT that will expire after 1 hour
 router.post('/', (req, res) => {
@@ -69,14 +69,14 @@ router.post('/', (req, res) => {
     process.env.EMAIL_SECRET,
     { expiresIn: '1h' },
     (err, emailToken) => {
-      const url = `https://localhost:8888/api/confirm/${emailToken}`;
+      const url = `http://localhost:8888/api/confirm/${emailToken}`;
       async.parallel(
         [
           function(callback) {
             sendEmail(
               callback,
               'noreply@fira.app',
-              ['spdevuk@gmail.com'],
+              [`${req.body.email}`],
               'Subject Line',
               'Text Content',
               `<a href="${url}"> <p style="font-size: 32px;">Please click this link to verify your <strong>account</strong></p>${url}</a>`
@@ -99,19 +99,13 @@ router.post('/', (req, res) => {
     }
   );
 });
-// create a token from the id
-// send that token to the id
-// decrypt it in the get route, if they match then verify the user in db
 
-// using a wildcard because bcrypt strings come with / in it and I don't know how to remove it
-// TODO: remove / from bcrypt or something.
+// TODO: change the redirect route and add a confirmed message maybe. Or redirect to a confirmed page.
 router.get('/:id', (req, res) => {
-  res.send('hi');
   jwt.verify(req.params.id, process.env.EMAIL_SECRET, (err, decoded) => {
-    console.log(decoded);
     User.update({ confirmed: true }, { where: { id: decoded.data } }).then(
       user => {
-        console.log(user);
+        res.redirect('http://localhost:3000/');
       }
     );
   });
