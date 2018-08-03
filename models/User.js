@@ -20,6 +20,11 @@ const User = sq.define('users', {
   password: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  confirmed: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 });
 
