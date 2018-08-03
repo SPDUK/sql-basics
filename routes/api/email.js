@@ -2,6 +2,7 @@ const helper = require('sendgrid').mail;
 const async = require('async');
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -57,43 +58,39 @@ function sendEmail(
 // TODO: import sq and user etc
 
 router.post('/', (req, res) => {
-  console.log(req.body);
-  bcrypt.genSalt(8, (err, salt) => {
-    if (err) console.log(err);
-    bcrypt.hash(req.body.id.toString(), salt, (err, hash) => {
-      if (err) console.log(err);
+  // jwt
 
-      async.parallel(
-        [
-          function(callback) {
-            sendEmail(
-              callback,
-              'noreply@fira.app',
-              ['spdevuk@gmail.com'],
-              'Subject Line',
-              'Text Content',
-              `<a href="http://localhost:8888/api/confirm/${hash}"> <p style="font-size: 32px;">Please click this link to verify your <strong>account</strong></p></a>`
-            );
-          }
-        ],
-        (err, results) => {
-          if (err) console.log(err);
-          res.send({
-            success: true,
-            message: 'Emails sent',
-            successfulEmails: results[0].successfulEmails,
-            errorEmails: results[0].errorEmails
-          });
-        }
-      );
-    });
-  });
+  console.log(res.body);
+  async.parallel(
+    [
+      function(callback) {
+        sendEmail(
+          callback,
+          'noreply@fira.app',
+          ['spdevuk@gmail.com'],
+          'Subject Line',
+          'Text Content',
+          `<a href="http://localhost:8888/api/confirm/${hash}"> <p style="font-size: 32px;">Please click this link to verify your <strong>account</strong></p></a>`
+        );
+      }
+    ],
+    (err, results) => {
+      if (err) console.log(err);
+      res.send({
+        success: true,
+        message: 'Emails sent',
+        successfulEmails: results[0].successfulEmails,
+        errorEmails: results[0].errorEmails
+      });
+    }
+  );
 });
 
 // using a wildcard because bcrypt strings come with / in it and I don't know how to remove it
 // TODO: remove / from bcrypt or something.
 router.get('/*', (req, res) => {
   res.send('hi');
+  console.log(req.params);
   console.log('route hit');
 });
 
