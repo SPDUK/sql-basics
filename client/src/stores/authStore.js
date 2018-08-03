@@ -36,11 +36,14 @@ class AuthStore {
     this.registerLoading = true;
     this.registerErrors = false;
     try {
-      await axios.post('api/users/register', data);
+      const registeredUser = await axios.post('api/users/register', data);
       this.registerLoading = false;
       message.success(
-        `Welcome ${data.username}, You have successfully registered.`
+        `Welcome ${
+          data.username
+        }, You have successfully registered. Please confirm your email`
       );
+      axios.post('api/send', { id: registeredUser.data.id });
     } catch (err) {
       this.registerErrors = err.response.data;
       this.registerLoading = false;

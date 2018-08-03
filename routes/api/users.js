@@ -94,8 +94,9 @@ router.post('/login', (req, res) => {
         errors.email = 'Incorrect email / password combination';
         return res.status(409).json(errors);
       }
-      if (!user.confirmed) {
-        return new Error('Please confirm your email to login');
+      if (!user.dataValues.confirmed) {
+        errors.email = 'You must first validate your email, check your inbox';
+        return res.status(409).json(errors);
       }
 
       // compare the password to the input password

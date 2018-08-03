@@ -1,6 +1,7 @@
 const helper = require('sendgrid').mail;
 const async = require('async');
 const express = require('express');
+const bcrypt = require('bcryptjs');
 
 const router = express.Router();
 
@@ -56,7 +57,17 @@ function sendEmail(
   });
 }
 
-router.post('/', (req, res, next) => {
+// TODO: import sq and user etc
+
+router.post('/', (req, res) => {
+  console.log(req.body);
+  console.log(res.body);
+  // const hashedID = bcrypt.genSalt(8, (err, salt) => {
+  //   bcrypt.hash(req.body.id, salt, (err, hash) => {
+  //     console.log(req.body);
+  //     console.log(hashedID);
+  //   });
+  // });
   async.parallel(
     [
       function(callback) {
